@@ -1,17 +1,6 @@
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 
-ENERGY_MAP = {
-    "Grass": "[G]",
-    "Fighting": "[F]",
-    "Metal": "[M]",
-    "Psychic": "[P]",
-    "Water": "[W]",
-    "Fire": "[R]",
-    "Dark": "[D]",
-    "Lightning": "[L]",
-}
-
 def findCard(s):
     #f replaces {s[x]} with the element from the (s) 
     url = f"https://limitlesstcg.com/cards/{s[0]}/{s[1]}"
@@ -29,7 +18,8 @@ def findCard(s):
     for tag in soup.select(".card-text-name a"):
             name = tag.get_text(strip=True)
 
-            if (name.startswith(("Grass", "Fighting", "Metal", "Psychich", "Water", "Fire", "Dark", "Lightning"))) and (name.endswith("Energy")):
+            #If it is special energy with type on the name, it changes the name to one char
+            if (name.startswith(("Grass", "Fighting", "Metal", "Psychic", "Water", "Fire", "Dark", "Lightning"))) and (name.endswith("Energy")):
                 results.append(name)
 
             elif ("Grass" in name):
@@ -55,7 +45,27 @@ def findCard(s):
 
             elif ("Lightning" in name) :
                 results.append(name.replace("Lightning", "[L]"))  
+            #End of energy name parsing
 
+            #If cards name is Boss's Orders, it find the set and adds the proper boss's name to the end of the string
+            elif ("Boss's Orders" in name):
+                bossStr = "Boss's Orders"
+                if (s[0] == "ASC"):
+                    bossStr += " - Corbeau"
+
+                elif (s[0] == "MEG" or s[0] == "PAL"):
+                    bossStr += " - Ghetsis"
+
+                elif (s[0] == "LOR" or s[0] == "SHF"):
+                    bossStr += " -  Lysandre"
+
+                elif (s[0] == "BRS" or s[0] == "SP"):
+                    bossStr += " - Cyrus"
+
+                elif (s[0] == "RCL"):
+                    bossStr += " - Giovanni"
+                    
+                results.append(name.replace("Boss's Orders", bossStr))
             else:
                 results.append(name)
 
