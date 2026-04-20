@@ -96,14 +96,14 @@ def findCard(s):
     final = " ".join(results)
     return(final)
 
-#Copy-paste list and it end when list reach line with "end"
+#Copy-paste list and it end when list reach line with "end" or with empty row
 #Turns the paste to array
 loop = True
 lines = []
 try:
     while loop == True:
         newLine = input()
-        if newLine == 'end':
+        if newLine == 'end' or newLine == '':
             loop = False
         else:  
             lines.append(newLine)
@@ -134,5 +134,7 @@ while x < len(lastLines):
     finalList.append(amountOfCards + " " + findCard(combinedString))
     x += 1
 
+print("Copy the list below")
+print("------------\n")
 result = '\n'.join(str(item) for item in finalList)
 print(result)
