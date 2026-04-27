@@ -73,6 +73,7 @@ def findCard(s):
     for abi in abilityContainer:
         abiText = abi.get_text(strip=True)
         abiArray = abiText.split()
+        #Removes the extra text caused by my lack of parsing css data
         if len(abiText) < 2:
             results.append(abiText[1])
         else:
@@ -108,6 +109,7 @@ def findCard(s):
 
 #Copy-paste list and it end when list reach line with "end" or with empty row
 #Turns the paste to array
+print("Please paste the card list: ")
 loop = True
 lines = []
 try:
